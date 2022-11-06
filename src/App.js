@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+// import { WorldIDWidget, WidgetProps } from "@worldcoin/id";
 import './App.css';
 
 import BalanceModal from './components/BalanceModal';
 import TransactionModal from './components/TransactionModal';
 import bgimage from "./img/cyclone.png"; 
+import worldCoin from "./img/worldcoin_full.png"; 
+
 
 import { 
   containerStyle,
@@ -21,6 +24,8 @@ import {
 
 function App() {
 
+  const [ isConnectedWorldCoin, setIsConnectedWorldCoin ] = useState(false)
+  const [ worldCoinAccount, setWorldCoinAccount ] = useState('')
   const [ walletAccount, setWalletAccount ] = useState('')
   const [ currentChain, setCurrentChain ] = useState('')
   const [ showBalanceModal, setShowBalanceModal ] = useState(false)
@@ -57,11 +62,41 @@ function App() {
     }
   }, [])
 
+
+  // Used to see if WorldCoinAccount is currently connected to the application
+  useEffect(() => {
+    setIsConnectedWorldCoin(setWorldCoinAccount ? true : false)
+  }, [setWorldCoinAccount])
+
+
   // Used to see if the wallet is currently connected to the application
   // If an account has been accessed with MetaMask, then the wallet is connected to the application.
   useEffect(() => {
       setIsConnected(walletAccount ? true : false)
   }, [walletAccount])
+
+
+
+  const handleConnectWorldCoin = async (verificationResponse) => {
+
+    console.log('Connecting WorldCoin...')
+    console.log(verificationResponse)
+
+    // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    // const account = accounts[0]
+    
+    // console.log('WorldCoin Account: ', account)
+    // setWorldCoinAccount(account)
+}
+
+
+  const handleDisconnectWorldCoin = async () => {
+
+    console.log('Disconnecting WorldCoin...')
+    setIsConnectedWorldCoin(false)
+    setWorldCoinAccount('')
+}
+
 
   // Connect the Wallet to the current selected account in MetaMask. 
   // Will generate a login request for user if no account is currently connected to the application
@@ -107,7 +142,7 @@ function App() {
 
     const message = [
       "This site is requesting your signature to approve login authorization!",
-      "I have read and accept the terms and conditions (https://example.org/) of this app.",
+      "I have read and accept the terms and conditions (https://compliantcyclone.org/) of this app.",
       "Please sign me in!"
     ].join("\n\n")
 
@@ -170,29 +205,99 @@ function App() {
             COMPLIANT CYCLONE
           </div>
 
+{/* start  container */}
         <div className="container" style={containerStyle}>
 
-            <div className="row" style={rowStyleRight}>
-              <div className="connect-button" onClick={!isConnected ? handleConnectWallet : handleDisconnect} style={{...buttonStyle, maxWidth: '850px',}}>
+                  {/* first verify with worldCoin */}
+                  
+{/* 
+                  WorldCoin error
 
-                  <div className="left-status" style={leftStatus}>
-                      {
-                        isConnected ? (
-                          <div className="status-icon connected" style={statusIconConnected}></div>
-                        ) : (
-                          <div className="status-icon disconnected" style={statusIconDisconnected}></div>
+
+                  Failed to compile
+                ./node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs
+                Can't import the named export 'Children' from non EcmaScript module (only default export is available)
+                */}
+
+
+                      {/* <div className="row" style={rowStyleRight}>
+
+                            {
+                              isConnectedWorldCoin ? ( 
+                                  <div className="button-76" style={{width: '100%', textOverflow: 'ellipsis', overflow: 'hidden'}}>{worldCoinAccount}</div>
+                                ) : (
+                                  // <div className="button-76" style={button76Style}>Verify with WorldCoin</div>
+
+                                  // <WorldIDWidget
+                                  //   actionId="wid_BPZsRJANxct2cZxVRyh80SFG" // obtain this from developer.worldcoin.org
+                                  //   signal="my_signal"
+                                  //   enableTelemetry
+                                  //   onSuccess={(verificationResponse) => { console.log(verificationResponse); handleConnectWorldCoin(verificationResponse); }} // pass the proof to the API or your smart contract
+                                  //   onError={(error) => console.error(error)}
+                                  //   debug={true} // to aid with debugging, remove in production
+                                  // />
+                                  
+                                  <div>test
+                                    </div>
+
+                                )
+                            }
+                    </div>  */}
+
+
+                  <div className="row">
+
+                      <a target="_blank" href="https://developer.worldcoin.org/">
+                        <img src={worldCoin} style={{ width: '350px',}} alt="Logo" />
+                      </a>
+
+                          {/* <div className="left-status" style={leftStatus}>
+                              {
+                                isConnected ? (
+                                  <div className="status-icon connected" style={statusIconConnected}></div>
+                                ) : (
+                                  <div className="status-icon disconnected" style={statusIconDisconnected}></div>
+                                )
+                              }
+                          </div> */}
+                    </div>
+
+
+
+                  {/* after isConnectedWorldCoin */}
+
+                  { 
+                      isConnectedWorldCoin ? (
+                          <div className="row" style={rowStyleRight}>
+                                <div className="connect-button" onClick={!isConnected ? handleConnectWallet : handleDisconnect} style={{...buttonStyle, maxWidth: '850px',}}>
+
+                                  <div className="left-status" style={leftStatus}>
+                                      {
+                                        isConnected ? (
+                                          <div className="status-icon connected" style={statusIconConnected}></div>
+                                        ) : (
+                                          <div className="status-icon disconnected" style={statusIconDisconnected}></div>
+                                        )
+                                      }
+                                  </div>
+                                  {
+                                    isConnected ? ( 
+                                        <div className="button-76" style={{width: '100%', textOverflow: 'ellipsis', overflow: 'hidden'}}>{walletAccount}</div>
+                                      ) : (
+                                        <div className="button-76" style={button76Style}>Connect Wallet</div>
+                                      )
+                                  }
+                              </div>
+                        </div>
+                        ) : 
+                        (
+                          <div>test
+                          </div>
                         )
-                      }
-                  </div>
-                  {
-                    isConnected ? ( 
-                        <div className="button-76" style={{width: '100%', textOverflow: 'ellipsis', overflow: 'hidden'}}>{walletAccount}</div>
-                      ) : (
-                        <div className="button-76" style={button76Style}>Connect Wallet</div>
-                      )
                   }
-              </div>
-            </div>
+
+
+                  {/* after Metamask isConnected */}
 
                   {
 
@@ -210,38 +315,39 @@ function App() {
                   }
 
 
+                {
+                      isConnected ? ( 
+                        <div className="row" style={rowStyle}>
 
-      {
-            isConnected ? ( 
-              <div className="row" style={rowStyle}>
+                          <button className="button-76" onClick={handleGetBalance} style={{...buttonStyle, maxWidth: '850px',}}>
+                              Get Wallet Balance
+                          </button>
+                          </div>
+                                ) : (
+                                  <div className="button76Style" style={button76Style}></div>
+                                )
 
-                <button className="button-76" onClick={handleGetBalance} style={{...buttonStyle, maxWidth: '850px',}}>
-                    Get Wallet Balance
-                </button>
-                </div>
-                      ) : (
-                        <div className="button76Style" style={button76Style}></div>
-                      )
+                      }
 
-             }
+                  {
+                    isConnected && (
+                      <div className="row" style={rowStyle}>
+                        <a target="_blank" className="button-76" href="https://frontend-keyring-administration-zdli-git-c40675-keyring-network.vercel.app/kyc-tokens">DAI KYC</a>
+                      </div>
+                    )
+                  }
 
-        {
-          isConnected && (
-            <div className="row" style={rowStyle}>
-              <a target="_blank" className="button-76" href="https://frontend-keyring-administration-zdli-git-c40675-keyring-network.vercel.app/kyc-tokens">DAI KYC</a>
-            </div>
-          )
-        }
-
-        {
-          isConnected && (
-            <div className="row" style={rowStyle}>
-              <a target="_blank" className="button-76" href="https://frontend-keyring-administration-zdli-kb8obad6y-keyring-network.vercel.app/kyc-tokens">USDC KYC</a>
-            </div>
-          )
-        }
+                  {
+                    isConnected && (
+                      <div className="row" style={rowStyle}>
+                        <a target="_blank" className="button-76" href="https://frontend-keyring-administration-zdli-kb8obad6y-keyring-network.vercel.app/kyc-tokens">USDC KYC</a>
+                      </div>
+                    )
+                  }
 
         </div>
+
+{/* end  container */}
 
         {
           showBalanceModal && (
