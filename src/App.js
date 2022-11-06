@@ -345,6 +345,23 @@ function App() {
                     )
                   }
 
+
+                  {
+                    isConnected && (
+                      <div className="row" style={rowStyle}>
+                        <a target="_blank" className="button-76" href="https://goerli.etherscan.io/address/0x01CEe2566814D319549907580cc8ED6277a81D31#writeContract">Deposit KYC USDT in Tornado</a>
+                      </div>
+                    )
+                  }
+
+                  {
+                    isConnected && (
+                      <div className="row" style={rowStyle}>
+                        <a target="_blank" className="button-76" href="https://goerli.etherscan.io/address/0x01CEe2566814D319549907580cc8ED6277a81D31#writeContract">Withdraw KYC USDT in Tornado</a>
+                      </div>
+                    )
+                  }
+
         </div>
 
 {/* end  container */}
