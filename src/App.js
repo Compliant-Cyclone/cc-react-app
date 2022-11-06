@@ -3,6 +3,7 @@ import './App.css';
 
 import BalanceModal from './components/BalanceModal';
 import TransactionModal from './components/TransactionModal';
+import bgimage from "./img/cyclone.png"; 
 
 import { 
   containerStyle,
@@ -164,7 +165,11 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" style={{ backgroundImage:`url(${bgimage})`,backgroundRepeat:'no-repeat', backgroundSize: 'cover',  }}>
+          <div className="button-76-top">
+            COMPLIANT CYCLONE
+          </div>
+
         <div className="container" style={containerStyle}>
 
             <div className="row" style={rowStyleRight}>
