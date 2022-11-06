@@ -194,7 +194,7 @@ function App() {
                   isConnected ? ( 
                               <div className="row" style={rowStyle}>
 
-                                <div className="button-76" onClick={handleDisconnect} style={buttonStyle}>
+                                <div className="button-76" onClick={handleDisconnect} style={{...buttonStyle, maxWidth: '850px',}}>
                                     Disconnect Wallet
                                 </div>
                               </div>
@@ -210,9 +210,7 @@ function App() {
             isConnected ? ( 
               <div className="row" style={rowStyle}>
 
-                <div className="header-title" style={{marginBottom: '20px'}}>Get Account Balance</div>
-
-                <button className="button-76" onClick={handleGetBalance} style={buttonStyle}>
+                <button className="button-76" onClick={handleGetBalance} style={{...buttonStyle, maxWidth: '850px',}}>
                     Get Wallet Balance
                 </button>
                 </div>
@@ -221,6 +219,22 @@ function App() {
                       )
 
              }
+
+        {
+          isConnected && (
+            <div className="row" style={rowStyle}>
+              <a target="_blank" className="button-76" href="https://frontend-keyring-administration-zdli-git-c40675-keyring-network.vercel.app/kyc-tokens">DAI KYC</a>
+            </div>
+          )
+        }
+
+        {
+          isConnected && (
+            <div className="row" style={rowStyle}>
+              <a target="_blank" className="button-76" href="https://frontend-keyring-administration-zdli-kb8obad6y-keyring-network.vercel.app/kyc-tokens">USDC KYC</a>
+            </div>
+          )
+        }
 
         </div>
 
@@ -234,6 +248,8 @@ function App() {
             <TransactionModal handleCloseModal={handleCloseTransactionModal} handleSendTransaction={handleSendTransaction} />
           )
         }
+
+
     </div>
   );
 }
